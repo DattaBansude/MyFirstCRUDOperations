@@ -9,6 +9,10 @@ public interface DeveloperService {
 
     String saveDeveloper(Developer developer);
 
+    List<Developer> saveAllDevelopers(List<Developer> developers);
+
+    void deleteDevelopersInGroup(List<Integer> ids);
+
     List<Developer> getAllDevelopers();
 
     Developer getDeveloperById(int id);
@@ -22,6 +26,7 @@ public interface DeveloperService {
     List<Developer> filterDataByGender(String gender);
 
     List<Developer> getDeveloperByAge(int age);
+
 
 
 }

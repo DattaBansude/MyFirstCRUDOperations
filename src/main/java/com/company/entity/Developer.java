@@ -1,6 +1,7 @@
 package com.company.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +10,9 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -36,8 +40,11 @@ public class Developer {
 
     private String developerId;
 
-    @JsonProperty("yearOfBirth")
-    private int yearOfBirth ;
+    //    @JsonProperty("yearOfBirth")
+//    private int yearOfBirth ;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDate dob;
+
 
 /*
     public int getId() {

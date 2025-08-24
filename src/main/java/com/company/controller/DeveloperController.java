@@ -84,14 +84,23 @@ public class DeveloperController {
         return new ResponseEntity<>(sortedList, HttpStatus.OK);
     }
 
+    @PostMapping("/saveInGroup")
+    public ResponseEntity<String> saveDeveloperInGroup(@RequestBody List<Developer> developers) {
+
+        developerService.saveAllDevelopers(developers);
+        logger.debug("Developers details saved: {}", developers); // DEBUG log
+        return new ResponseEntity<>("All Developers Saved", HttpStatus.CREATED);
+    }
+
     @DeleteMapping("/deleteInGroup")
-    public ResponseEntity<String> deleteDeveloperInGroup(@RequestParam (required = false) List<Integer> id){
-        return new ResponseEntity("deleted", HttpStatus.OK);
+    public ResponseEntity<String> deleteDeveloperInGroup(@RequestParam(required = false) List<Integer> id) {
+        developerService.deleteDevelopersInGroup(id);
+        return new ResponseEntity("Developers deleted", HttpStatus.OK);
     }
 
     @GetMapping("/byAge/{age}")
-    public ResponseEntity<List<Developer>> getDeveloperbyAge(@PathVariable("age")int age){
-        List<Developer> developerList=developerService.getDeveloperByAge(age);
+    public ResponseEntity<List<Developer>> getDeveloperbyAge(@PathVariable("age") int age) {
+        List<Developer> developerList = developerService.getDeveloperByAge(age);
         return new ResponseEntity<>(developerList, HttpStatus.OK);
     }
 }

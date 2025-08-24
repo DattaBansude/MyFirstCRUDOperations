@@ -37,4 +37,10 @@ public class SimpleSchedular {
         }
     }
 
+    @Scheduled(cron = "0 0 0 * * *")
+    public void updateAge() {
+        developerRepository.updateAgeForBirthdays();
+        System.out.println("Today is birthday and age is updated");
+    }
+
 }

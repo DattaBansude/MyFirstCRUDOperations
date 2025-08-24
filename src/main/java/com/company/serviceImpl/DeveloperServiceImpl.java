@@ -2,6 +2,7 @@ package com.company.serviceImpl;
 
 import com.company.entity.Developer;
 import com.company.exception.DeveloperNotFoundException;
+import com.company.helper.DeveloperAgeGenrator;
 import com.company.helper.DeveloperIdGenrator;
 import com.company.repository.DeveloperRepository;
 import com.company.service.DeveloperService;
@@ -21,6 +22,8 @@ public class DeveloperServiceImpl implements DeveloperService {
     public String saveDeveloper(Developer developer) {
         String developerId = DeveloperIdGenrator.genratedeveloperId(developer);
         developer.setDeveloperId(developerId);
+        int age = DeveloperAgeGenrator.genratedeveloperAge(developer);
+        developer.setAge(age);
         Developer savedDeveloper = developerRepository.save(developer);
         if (developer != null) {
             return "Developer Saved";
@@ -28,6 +31,24 @@ public class DeveloperServiceImpl implements DeveloperService {
             return "Developer is not saved";
         }
 
+    }
+
+    @Override
+    public List<Developer> saveAllDevelopers(List<Developer> developers) {
+        developers.stream().forEach((dev) ->
+        {
+            dev.setDeveloperId(DeveloperIdGenrator.genratedeveloperId(dev));
+            dev.setAge(DeveloperAgeGenrator.genratedeveloperAge(dev));
+        });
+        List<Developer> developerList = developerRepository.saveAll(developers);
+        return developerList;
+    }
+
+    @Override
+    public void deleteDevelopersInGroup(List<Integer> ids) {
+        if (ids != null && !ids.isEmpty()) {
+            developerRepository.deleteAllById(ids);
+        }
     }
 
     @Override
@@ -40,7 +61,7 @@ public class DeveloperServiceImpl implements DeveloperService {
     public Developer getDeveloperById(int id) {
         Developer developer = developerRepository.findById(id).orElseThrow(()
 //                -> new NullPointerException("Developer is not found with id" + id));
-                 -> new DeveloperNotFoundException("Developer with id not found : " +id));
+                -> new DeveloperNotFoundException("Developer with id not found : " + id));
         return developer;
     }
 
@@ -90,7 +111,7 @@ public class DeveloperServiceImpl implements DeveloperService {
 
     @Override
     public List<Developer> getDeveloperByAge(int age) {
-        List<Developer> developerByAge =  developerRepository.findByAge(age);
+        List<Developer> developerByAge = developerRepository.findByAge(age);
         return developerByAge;
 
     }
